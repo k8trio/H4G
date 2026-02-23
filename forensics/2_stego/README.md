@@ -1,4 +1,4 @@
-# Challenge 2: Hidden in Plain Sight
+# Challenge 2: Hidden in Plain Sight - 30 POINTS
 
 ## Scenario
 An image was found on a suspect’s device.  
