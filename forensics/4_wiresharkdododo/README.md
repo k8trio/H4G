@@ -13,12 +13,13 @@ Examine `traffic.pcap` and answer the following:
 ---
 
 ## Questions
-1. What HTTP method was used in the login attempt?
-2. What credentials were transmitted?
-3. What host was accessed?
-4. What is the flag?
+1. What is the flag?
 
 ---
+## CLUE
 
+username+password=FLAG{username_password}
+
+---
 ## Flag Format
 FLAG{...}
