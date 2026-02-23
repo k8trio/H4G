@@ -1,4 +1,4 @@
-# 🟢 Warmup Challenges – Free Points
+# 🟢 Warmup Challenges – 5 POINTS EACH 
 
 Welcome to the warmup section of the Forensics Tryouts.
 
