@@ -140,12 +140,12 @@ xenthoris valtrixa korvanel draventa poltherix zanvoria meltraxis
 quontriva selthera valnexor jolvantis malveron peltraxis dorvexin
 zelthorin mantrexa vorlaxis quendara pelvionex zoltravin korvatrix
 
-raventix malphora senterix jolvarin dextrava porlenthix valmeron
+raventix malphora senterix FLAG{jolvarin dextrava porlenthix valmeron
 zintrelax korvantis meltravin sonterex jalvoria quintera vorlaxis
 montraxis velthorin jalvex mortriva solnexa pelthorin dravexil quentara
 zolvantis maltrixa vorlenth quavonex seltravin polnexar zantriva kelmora
 
-veltraxis polnexor dravionta malvexar sontriva kelphora quinterax
+veltraxis polnexor draviontaFLAG{ malvexar sontriva kelphora quinterax
 zolvantis melthera valtrixa porvexin dorlaxis mantrexa zelvoria
 quendara poltherix zanvoria meltraxis quontriva selthera valnexor
 jolvantis malveron peltraxis dorvexin zelthorin mantrexa vorlaxis
@@ -1301,4 +1301,5 @@ vinterax doltrine halvoris selnatrix jolthera pentravil morzanex
 xenthoris valtrixa korvanel draventa poltherix zanvoria meltraxis
 quontriva selthera valnexor jolvantis malveron peltraxis dorvexin
 zelthorin mantrexa vorlaxis quendara pelvionex zoltravin korvatrix
+
 malthera selvorin draventa polnexar zanvoria meltraxis quontriva
