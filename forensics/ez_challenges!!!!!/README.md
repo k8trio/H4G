@@ -55,6 +55,17 @@ Not all hidden information is deeply buried or encrypted. Sometimes, the answer 
 Carefully inspect the provided file. Look beyond what is immediately visible and examine it from different angles. A small detail may reveal more than expected.
 
 ---
+### 6️⃣ Overthink Malala - filename: disregard_FLAG{check_txt_files_properly}
+
+Not every file that appears important actually contains useful information. In forensic investigations, it’s common to encounter distractions — files that seem significant but lead nowhere.
+
+In this challenge, you are provided with a file that may not immediately reveal anything valuable. Do not assume the obvious path is the correct one.
+
+If something seems empty or irrelevant, take a closer look.
+
+Careful inspection is key.
+
+---
 
 ## 🏁 Flag Format
 
