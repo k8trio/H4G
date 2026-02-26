@@ -1,0 +1,3 @@
+A guy named john started to build his very own personal website long ago. During the development, he left JUICY information. Could be good if we can retrieve those information, maybe a machine capable of going way back in time? 
+
+Website Link: https://ratatooo-pixel.github.io/my-website/
