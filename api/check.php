@@ -23,26 +23,23 @@ if (!hash_equals($correct_answer, $flag)) {
   exit;
 }
 
-$pdo = db();
-$pdo->beginTransaction();
+// One atomic query: record the solve (once per player) and add the points only if it was new.
+$st = db()->prepare(
+  'WITH ins AS (
+     INSERT INTO solves (player_id, problem) VALUES (?, ?) ON CONFLICT DO NOTHING RETURNING 1
+   )
+   UPDATE players SET points = points + ? WHERE id = ? AND EXISTS (SELECT 1 FROM ins) RETURNING points'
+);
+$st->execute([$user['id'], $problem, $pts, $user['id']]);
+$total = $st->fetchColumn();
 
-// The primary key (player_id, problem) makes sure each flag only counts once per player.
-$st = $pdo->prepare('INSERT INTO solves (player_id, problem) VALUES (?, ?) ON CONFLICT DO NOTHING');
-$st->execute([$user['id'], $problem]);
-
-if ($st->rowCount() === 0) {
-  $pdo->rollBack();
+if ($total === false) {
   echo json_encode(['correct' => false, 'message' => '[ WARN ] Already solved. No duplicate points.']);
   exit;
 }
 
-$st = $pdo->prepare('UPDATE players SET points = points + ? WHERE id = ? RETURNING points');
-$st->execute([$pts, $user['id']]);
-$total = (int)$st->fetchColumn();
-$pdo->commit();
-
 echo json_encode([
   'correct' => true,
   'message' => '[ ACCESS GRANTED ] +' . $pts . ' pts. Flag captured!',
-  'total'   => $total,
+  'total'   => (int)$total,
 ]);

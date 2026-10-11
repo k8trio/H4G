@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $mode     = ($_POST['action'] ?? '') === 'register' ? 'register' : 'login';
   $username = trim($_POST['username'] ?? '');
   $password = $_POST['password'] ?? '';
+  ensure_schema();
   $pdo      = db();
 
   if ($mode === 'register') {

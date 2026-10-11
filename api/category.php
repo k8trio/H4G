@@ -123,17 +123,26 @@ $problems = $all_problems[$cat];
       if (e.key === 'Enter' && currentKey) submitFlag();
     });
 
+    let busy = false;
     function submitFlag() {
+      if (busy) return;
       const flag = document.getElementById('flagInput').value.trim();
       const msg  = document.getElementById('modalMsg');
-      if (!flag) { msg.innerText = 'Enter a flag first.'; return; }
+      if (!flag) { msg.className = 'modal-msg wrong'; msg.innerText = 'Enter a flag first.'; return; }
+
+      busy = true;
+      msg.className = 'modal-msg';
+      msg.innerText = '[ CHECKING... ]';
 
       fetch('check.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: `problem=${encodeURIComponent(currentKey)}&flag=${encodeURIComponent(flag)}&cat=${encodeURIComponent('<?= $cat ?>')}`
       })
-      .then(r => r.json())
+      .then(r => r.text().then(t => {
+        try { return JSON.parse(t); }
+        catch (e) { throw new Error('Server error (' + r.status + '). Check the Vercel runtime logs.'); }
+      }))
       .then(data => {
         msg.className = 'modal-msg ' + (data.correct ? 'correct' : 'wrong');
         msg.innerText = data.message;
@@ -144,7 +153,12 @@ $problems = $all_problems[$cat];
             location.reload();
           }, 1500);
         }
-      });
+      })
+      .catch(err => {
+        msg.className = 'modal-msg wrong';
+        msg.innerText = '[ ERROR ] ' + err.message;
+      })
+      .finally(() => { busy = false; });
     }
   </script>
 </body>

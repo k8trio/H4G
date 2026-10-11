@@ -18,7 +18,12 @@ function db(): PDO {
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
   ]);
 
-  // Tables are created automatically the first time.
+  return $pdo;
+}
+
+// Creates the tables if they don't exist yet. Only called from login.php (kept out of normal requests for speed).
+function ensure_schema(): void {
+  $pdo = db();
   $pdo->exec("CREATE TABLE IF NOT EXISTS players (
     id BIGSERIAL PRIMARY KEY,
     username VARCHAR(20) NOT NULL,
@@ -33,7 +38,6 @@ function db(): PDO {
     solved_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     PRIMARY KEY (player_id, problem)
   )");
-  return $pdo;
 }
 
 function auth_secret(): string {
