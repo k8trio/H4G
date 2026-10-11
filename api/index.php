@@ -1,4 +1,4 @@
-<?php session_start(); if (!isset($_SESSION['points'])) { $_SESSION['points'] = 0; $_SESSION['solved'] = []; } ?>
+<?php require_once __DIR__ . '/_auth.php'; $user = require_login(); $solved_count = count(solved_keys($user['id'])); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +14,9 @@
     <div class="logo">H4G_CTF<span class="blink">_</span></div>
     <div class="points-display">
       <span class="pts-label">SCORE</span>
-      <span class="pts-value" id="points"><?= $_SESSION['points'] ?></span>
+      <span class="pts-value" id="points"><?= (int)$user['points'] ?></span>
     </div>
+    <a href="logout.php" style="color:var(--green);font-size:.8rem;text-decoration:none;margin-left:16px;">[ LOGOUT: <?= htmlspecialchars($user['username']) ?> ]</a>
   </div>
 
   <div class="scanline"></div>
@@ -54,7 +55,7 @@
     </div>
   </main>
 
-  <div class="footer-bar">[ SYSTEM ONLINE ] &nbsp;|&nbsp; <?= count($_SESSION['solved']) ?> FLAGS CAPTURED &nbsp;|&nbsp; <?= $_SESSION['points'] ?> PTS</div>
+  <div class="footer-bar">[ SYSTEM ONLINE ] &nbsp;|&nbsp; <?= $solved_count ?> FLAGS CAPTURED &nbsp;|&nbsp; <?= (int)$user['points'] ?> PTS</div>
 
   <script src="matrix.js"></script>
 </body>

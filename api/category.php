@@ -1,6 +1,7 @@
 <?php
-session_start();
-if (!isset($_SESSION['points'])) { $_SESSION['points'] = 0; $_SESSION['solved'] = []; }
+require_once __DIR__ . '/_auth.php';
+$user = require_login();
+$solved_keys = solved_keys($user['id']);
 
 $cat = strtolower($_GET['cat'] ?? '');
 
@@ -40,7 +41,7 @@ $problems = $all_problems[$cat];
     <div class="logo"><?= htmlspecialchars($labels[$cat]) ?></div>
     <div class="points-display">
       <span class="pts-label">SCORE</span>
-      <span class="pts-value" id="points"><?= $_SESSION['points'] ?></span>
+      <span class="pts-value" id="points"><?= (int)$user['points'] ?></span>
     </div>
   </div>
 
@@ -53,7 +54,7 @@ $problems = $all_problems[$cat];
     <?php else: ?>
       <div class="prob-grid">
         <?php foreach ($problems as $key => $p):
-          $solved = in_array($key, $_SESSION['solved']);
+          $solved = in_array($key, $solved_keys);
         ?>
         <div class="prob-card <?= $solved ? 'solved' : '' ?>" onclick="<?= $solved ? '' : "openModal('" . addslashes($key) . "')" ?>">
           <div class="prob-pts"><?= $p['points'] ?> PTS</div>
@@ -91,7 +92,7 @@ $problems = $all_problems[$cat];
     </div>
   </div>
 
-  <div class="footer-bar">[ <?= htmlspecialchars(strtoupper($cat)) ?> ] &nbsp;|&nbsp; <?= count($_SESSION['solved']) ?> FLAGS CAPTURED &nbsp;|&nbsp; <?= $_SESSION['points'] ?> PTS</div>
+  <div class="footer-bar">[ <?= htmlspecialchars(strtoupper($cat)) ?> ] &nbsp;|&nbsp; <?= count($solved_keys) ?> FLAGS CAPTURED &nbsp;|&nbsp; <?= (int)$user['points'] ?> PTS</div>
 
   <script src="matrix.js"></script>
   <script>

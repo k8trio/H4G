@@ -1,8 +1,8 @@
 <?php
-session_start();
+require_once __DIR__ . '/_auth.php';
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['points'])) { $_SESSION['points'] = 0; $_SESSION['solved'] = []; }
+$user = require_login(true);
 
 $all_problems = [
   'cryptography' => [
@@ -24,22 +24,34 @@ if (!isset($all_problems[$cat][$problem])) {
   exit;
 }
 
-if (in_array($problem, $_SESSION['solved'])) {
+$correct_answer = $all_problems[$cat][$problem]['answer'];
+$pts            = $all_problems[$cat][$problem]['points'];
+
+if (!hash_equals($correct_answer, $flag)) {
+  echo json_encode(['correct' => false, 'message' => '[ ACCESS DENIED ] Wrong flag. Try again.']);
+  exit;
+}
+
+$pdo = db();
+$pdo->beginTransaction();
+
+// The primary key (player_id, problem) makes sure each flag only counts once per player.
+$st = $pdo->prepare('INSERT INTO solves (player_id, problem) VALUES (?, ?) ON CONFLICT DO NOTHING');
+$st->execute([$user['id'], $problem]);
+
+if ($st->rowCount() === 0) {
+  $pdo->rollBack();
   echo json_encode(['correct' => false, 'message' => '[ WARN ] Already solved. No duplicate points.']);
   exit;
 }
 
-$correct_answer = $all_problems[$cat][$problem]['answer'];
-$pts            = $all_problems[$cat][$problem]['points'];
+$st = $pdo->prepare('UPDATE players SET points = points + ? WHERE id = ? RETURNING points');
+$st->execute([$pts, $user['id']]);
+$total = (int)$st->fetchColumn();
+$pdo->commit();
 
-if ($flag === $correct_answer) {
-  $_SESSION['points'] += $pts;
-  $_SESSION['solved'][] = $problem;
-  echo json_encode([
-    'correct' => true,
-    'message' => '[ ACCESS GRANTED ] +' . $pts . ' pts. Flag captured!',
-    'total'   => $_SESSION['points'],
-  ]);
-} else {
-  echo json_encode(['correct' => false, 'message' => '[ ACCESS DENIED ] Wrong flag. Try again.']);
-}
+echo json_encode([
+  'correct' => true,
+  'message' => '[ ACCESS GRANTED ] +' . $pts . ' pts. Flag captured!',
+  'total'   => $total,
+]);
