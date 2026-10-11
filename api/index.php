@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/_auth.php'; $user = require_login(); $solved_count = count(solved_keys($user['id'])); ?>
+<?php require_once __DIR__ . '/_auth.php'; $user = require_login(); $solved_count = count(solved_keys($user['id'])); $P = require __DIR__ . '/_problems.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,26 +29,26 @@
 
     <div class="category-grid">
       <a href="category.php?cat=cryptography" class="cat-card crypto">
-        <div class="cat-icon">🔐</div>
+
         <div class="cat-name">CRYPTOGRAPHY</div>
         <div class="cat-desc">Ciphers. Codes. Secrets encoded in plain sight.</div>
-        <div class="cat-count">4 Challenges</div>
+        <div class="cat-count"><?= count($P['cryptography']) ?> Challenges</div>
         <div class="corner tl"></div><div class="corner tr"></div>
         <div class="corner bl"></div><div class="corner br"></div>
       </a>
       <a href="category.php?cat=forensics" class="cat-card forensics">
-        <div class="cat-icon">🔍</div>
+
         <div class="cat-name">FORENSICS</div>
         <div class="cat-desc">Dig into files. Recover the hidden. Leave no trace.</div>
-        <div class="cat-count">Coming Soon</div>
+        <div class="cat-count"><?= count($P['forensics']) ?> Challenges</div>
         <div class="corner tl"></div><div class="corner tr"></div>
         <div class="corner bl"></div><div class="corner br"></div>
       </a>
       <a href="category.php?cat=osint" class="cat-card osint">
-        <div class="cat-icon">🌐</div>
+
         <div class="cat-name">OSINT</div>
         <div class="cat-desc">Open sources. Public data. Find what they left behind.</div>
-        <div class="cat-count">Coming Soon</div>
+        <div class="cat-count"><?= count($P['osint']) ?> Challenges</div>
         <div class="corner tl"></div><div class="corner tr"></div>
         <div class="corner bl"></div><div class="corner br"></div>
       </a>

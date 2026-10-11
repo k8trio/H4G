@@ -1,0 +1,35 @@
+<?php
+// All challenges live here. Add or edit a challenge in this one file.
+// Key = lowercase id (letters, numbers, spaces). Each needs: title, desc, points, answer.
+return [
+
+  'cryptography' => [
+    '13 caesar'                => ['title' => '13 Caesar',                'desc' => 'Caesar never thought 13 steps ahead.', 'points' => 15, 'files' => ['Cryptography/13 Caesar.txt'], 'answer' => 'ctf{this_1s_th3_fl4g}'],
+    'apol'                     => ['title' => 'apol',                     'desc' => 'A name behind the machine.', 'points' => 15, 'files' => ['Cryptography/apol.txt'], 'answer' => 'ctf{wozniak}'],
+    'esrever'                  => ['title' => 'esrever',                  'desc' => 'Read between the lines — backwards.', 'points' => 25, 'files' => ['Cryptography/esrever.txt'], 'answer' => 'ctf{an0_d4w}'],
+    'combination mo ang limit' => ['title' => 'COMBINATION MO ANG LIMIT', 'desc' => 'The combinations are endless. Or are they?', 'points' => 35, 'files' => ['Cryptography/COMBINATION MO ANG LIMIT.txt'], 'answer' => 'ctf{w0w_4nG_g4L!nG}'],
+  ],
+
+  // Flags are case-sensitive: FLAG{...}
+  'forensics' => [
+    'obvious strings'    => ['title' => 'Obvious Strings',       'desc' => 'File: f+controls_logs.txt. A file full of trash information. Sometimes the answer is right in front of you.', 'points' => 5, 'files' => ['forensics/ez_challenges!!!!!/f+ctrl_logs.txt'], 'answer' => 'FLAG{ctrl_f_master}'],
+    'hidden extension'   => ['title' => 'Hidden File Extension', 'desc' => 'File: flag.jpg. A file may not always be what it appears to be. Investigate the file type carefully.', 'points' => 5, 'files' => ['forensics/ez_challenges!!!!!/flag.jpg'], 'answer' => 'FLAG{ang_pogi_ni_charles}'],
+    'metadata'           => ['title' => 'Metadata Never Lies',   'desc' => 'File: meta_yarn.jpg. Images often contain more than what you see on the surface. The answer may be stored in information most people forget exists.', 'points' => 5, 'files' => ['forensics/ez_challenges!!!!!/meta_yarn.jpg'], 'answer' => 'FLAG{metadata_exists}'],
+    'simple encoding'    => ['title' => 'Simple Encoding',       'desc' => 'File: base64_reverse.txt. The file contains encoded text. Decode it properly and investigate the result carefully.', 'points' => 5, 'files' => ['forensics/ez_challenges!!!!!/base64_reverse.txt'], 'answer' => 'FLAG{double_layer}'],
+    'hidden doc'         => ['title' => 'Hidden in Plain Sight (Doc)', 'desc' => 'File: hidden_in_plain_sight.docx. Not all hidden information is deeply buried. Look beyond what is immediately visible and examine it from different angles.', 'points' => 5, 'files' => ['forensics/ez_challenges!!!!!/hidden_in_plain_sight.docx'], 'answer' => 'FLAG{zoom_in}'],
+    'overthink malala'   => ['title' => 'Overthink Malala',      'desc' => 'File: disregard_FLAG{check_txt_files_properly}.txt. Not every file that appears important contains useful information. Do not assume the obvious path is the correct one.', 'points' => 5, 'files' => ['forensics/ez_challenges!!!!!/disregard_FLAG{check_txt_files_properly}.txt'], 'answer' => 'FLAG{check_txt_files_properly}'],
+    'hex warmup'         => ['title' => 'Hex Warmup',            'desc' => 'File: HEXagon.txt. A suspicious text file was recovered from a workstation. The contents appear to be encoded. What is the decoded message?', 'points' => 10, 'files' => ['forensics/1_hex_warmup/HEXagon.txt'], 'answer' => 'FLAG{first_win_easy}'],
+    'hidden image'       => ['title' => 'Hidden in Plain Sight (Image)', 'desc' => 'File: image.png. An image found on a suspect\'s device looks completely normal, but investigators believe it contains hidden information. What is the hidden message?', 'points' => 30, 'files' => ['forensics/2_stego/image.png'], 'answer' => 'FLAG{hidden_in_plain_sight}'],
+    'embedded evidence'  => ['title' => 'Embedded Evidence',     'desc' => 'File: challenge.jpg. The image opens normally, but analysts suspect additional data is embedded within it. What is the extracted flag?', 'points' => 50, 'files' => ['forensics/3_walkbin/challenge.jpg'], 'answer' => 'FLAG{file_carving_success}'],
+    'suspicious network' => ['title' => 'Suspicious Network Activity', 'desc' => 'File: traffic.pcap. A packet capture was obtained after a suspected unauthorized login attempt on a web server. Clue: username+password = FLAG{username_password}', 'points' => 100, 'files' => ['forensics/4_wiresharkdododo/traffic.pcap'], 'answer' => 'FLAG{admin_hack4gov}'],
+  ],
+
+  // TODO: replace every 'FLAG{TODO_...}' answer with the real flag and adjust the points.
+  'osint' => [
+    'door 1'       => ['title' => 'Door 1',       'desc' => 'Does the name \'PeeESHyou\' ring a bell? Maybe something on social media can unlock these doors, perhaps a password. Door 1: there is a suspicious line of code hidden here.', 'points' => 20, 'files' => ['OSINT/Door 1, Door 2, Door 3/Door 1.zip'], 'answer' => 'FLAG{TODO_door_1}'],
+    'door 2'       => ['title' => 'Door 2',       'desc' => 'Use the clues from the previous room. A lens? What kind of lens? You need to pinpoint the exact coordinates.', 'points' => 30, 'files' => ['OSINT/Door 1, Door 2, Door 3/Door 2.zip'], 'answer' => 'FLAG{TODO_door_2}'],
+    'door 3'       => ['title' => 'Door 3',       'desc' => 'There is more to this photo than meets the eye. Dig into the metadata.', 'points' => 40, 'files' => ['OSINT/Door 1, Door 2, Door 3/Door 3.zip'], 'answer' => 'FLAG{TODO_door_3}'],
+    'just nels it' => ['title' => 'Just Nels It!', 'desc' => 'File: so many trees.jpg. So many trees... can you figure out where this photo was taken?', 'points' => 30, 'files' => ['OSINT/Just Nels It!/so many trees.jpg'], 'answer' => 'FLAG{TODO_just_nels_it}'],
+    'time machine' => ['title' => 'Time Machine',  'desc' => 'A guy named john started building his very own personal website long ago. During development he left JUICY information. Maybe a machine capable of going way back in time could retrieve it? Website: https://ratatooo-pixel.github.io/my-website/', 'points' => 30, 'answer' => 'FLAG{TODO_time_machine}'],
+  ],
+];

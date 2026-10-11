@@ -4,16 +4,7 @@ header('Content-Type: application/json');
 
 $user = require_login(true);
 
-$all_problems = [
-  'cryptography' => [
-    '13 caesar'              => ['answer' => 'ctf{this_1s_th3_fl4g}', 'points' => 15],
-    'apol'                   => ['answer' => 'ctf{wozniak}',           'points' => 15],
-    'esrever'                => ['answer' => 'ctf{an0_d4w}',           'points' => 25],
-    'combination mo ang limit' => ['answer' => 'ctf{w0w_4nG_g4L!nG}', 'points' => 35],
-  ],
-  'forensics' => [],
-  'osint'     => [],
-];
+$all_problems = require __DIR__ . '/_problems.php';
 
 $cat     = strtolower(trim($_POST['cat']    ?? ''));
 $problem = strtolower(trim($_POST['problem'] ?? ''));

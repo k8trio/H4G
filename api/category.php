@@ -5,16 +5,7 @@ $solved_keys = solved_keys($user['id']);
 
 $cat = strtolower($_GET['cat'] ?? '');
 
-$all_problems = [
-  'cryptography' => [
-    '13 caesar'              => ['title' => '13 Caesar',              'desc' => 'Caesar never thought 13 steps ahead.', 'points' => 15,  'answer' => 'ctf{this_1s_th3_fl4g}'],
-    'apol'                   => ['title' => 'apol',                   'desc' => 'A name behind the machine.', 'points' => 15,  'answer' => 'ctf{wozniak}'],
-    'esrever'                => ['title' => 'esrever',                'desc' => 'Read between the lines — backwards.', 'points' => 25,  'answer' => 'ctf{an0_d4w}'],
-    'combination mo ang limit' => ['title' => 'COMBINATION MO ANG LIMIT', 'desc' => 'The combinations are endless. Or are they?', 'points' => 35,  'answer' => 'ctf{w0w_4nG_g4L!nG}'],
-  ],
-  'forensics' => [],
-  'osint'     => [],
-];
+$all_problems = require __DIR__ . '/_problems.php';
 
 $labels = ['cryptography' => 'CRYPTOGRAPHY', 'forensics' => 'FORENSICS', 'osint' => 'OSINT'];
 
@@ -78,9 +69,10 @@ $problems = $all_problems[$cat];
     <div class="modal-box" onclick="event.stopPropagation()">
       <div class="modal-title" id="modalTitle"></div>
       <div class="modal-desc" id="modalDesc"></div>
+      <div id="modalFiles" style="margin:10px 0;"></div>
       <div class="flag-input-wrap">
         <span class="prompt">root@ctf:~$</span>
-        <input type="text" id="flagInput" placeholder="ctf{...}" autocomplete="off" spellcheck="false"/>
+        <input type="text" id="flagInput" placeholder="<?= $cat === 'cryptography' ? 'ctf{...}' : 'FLAG{...}' ?>" autocomplete="off" spellcheck="false"/>
       </div>
       <div id="modalMsg" class="modal-msg"></div>
       <div class="modal-actions">
@@ -100,9 +92,20 @@ $problems = $all_problems[$cat];
 
     function openModal(key) {
       currentKey = key;
-      const data = <?= json_encode($problems) ?>;
+      const data = <?= json_encode(array_map(fn($p) => [
+        'title' => $p['title'], 'desc' => $p['desc'], 'points' => $p['points'],
+        'files' => array_map(fn($f) => ['name' => basename($f), 'url' => '/' . implode('/', array_map('rawurlencode', explode('/', $f)))], $p['files'] ?? []),
+      ], $problems)) ?>;
       document.getElementById('modalTitle').innerText = data[key].title;
       document.getElementById('modalDesc').innerText  = data[key].desc;
+      const fw = document.getElementById('modalFiles');
+      fw.innerHTML = '';
+      (data[key].files || []).forEach(f => {
+        const a = document.createElement('a');
+        a.href = f.url; a.download = f.name; a.textContent = '⬇ ' + f.name;
+        a.style.cssText = 'display:block;color:var(--green);margin:6px 0;word-break:break-all;';
+        fw.appendChild(a);
+      });
       document.getElementById('flagInput').value = '';
       document.getElementById('modalMsg').innerText = '';
       document.getElementById('modalMsg').className = 'modal-msg';
