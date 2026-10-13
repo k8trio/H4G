@@ -6,6 +6,6 @@
     { "src": "/(api/)?_[^/]*", "status": 404 },
     { "handle": "filesystem" },
     { "src": "/", "dest": "/api/index.php" },
-    { "src": "/(.+)\.php", "dest": "/api/$1.php" }
+    { "src": "/(.+)\\.php", "dest": "/api/$1.php" }
   ]
 }
