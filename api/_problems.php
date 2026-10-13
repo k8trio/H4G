@@ -4,10 +4,10 @@
 return [
 
   'cryptography' => [
-    '13 caesar'                => ['title' => '13 Caesar',                'desc' => 'Caesar never thought 13 steps ahead.', 'points' => 15, 'files' => ['Cryptography/13 Caesar.txt'], 'answer' => 'ctf{this_1s_th3_fl4g}'],
-    'apol'                     => ['title' => 'apol',                     'desc' => 'A name behind the machine.', 'points' => 15, 'files' => ['Cryptography/apol.txt'], 'answer' => 'ctf{wozniak}'],
-    'esrever'                  => ['title' => 'esrever',                  'desc' => 'Read between the lines — backwards.', 'points' => 25, 'files' => ['Cryptography/esrever.txt'], 'answer' => 'ctf{an0_d4w}'],
-    'combination mo ang limit' => ['title' => 'COMBINATION MO ANG LIMIT', 'desc' => 'The combinations are endless. Or are they?', 'points' => 35, 'files' => ['Cryptography/COMBINATION MO ANG LIMIT.txt'], 'answer' => 'ctf{w0w_4nG_g4L!nG}'],
+    '13 caesar'                => ['title' => '13 Caesar',                'desc' => 'Caesar never thought 13 steps ahead.', 'points' => 15, 'files' => ['Cryptography/13 Caesar.txt'], 'answer' => 'psuCTF{this_1s_th3_fl4g}'],
+    'apol'                     => ['title' => 'apol',                     'desc' => 'A name behind the machine.', 'points' => 15, 'files' => ['Cryptography/apol.txt'], 'answer' => 'psuCTF{wozniak}'],
+    'esrever'                  => ['title' => 'esrever',                  'desc' => 'Read between the lines — backwards.', 'points' => 25, 'files' => ['Cryptography/esrever.txt'], 'answer' => 'psuCTF{an0_d4w}'],
+    'combination mo ang limit' => ['title' => 'COMBINATION MO ANG LIMIT', 'desc' => 'The combinations are endless. Or are they?', 'points' => 35, 'files' => ['Cryptography/COMBINATION MO ANG LIMIT.txt'], 'answer' => 'psuCTF{w0w_4nG_g4L!nG}'],
   ],
 
   // Flags are case-sensitive: FLAG{...}
