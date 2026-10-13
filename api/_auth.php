@@ -16,6 +16,10 @@ function db(): PDO {
   $pdo = new PDO($dsn, urldecode($u['user'] ?? ''), urldecode($u['pass'] ?? ''), [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    // No named server-side prepared statements (parameters are still sent separately via
+    // PQexecParams). Behind a connection pooler (Neon/PgBouncer) the DEALLOCATE that PDO sends
+    // when a statement is freed fails silently and aborts the open transaction (SQLSTATE 25P02).
+    PDO::PGSQL_ATTR_DISABLE_PREPARES => true,
   ]);
 
   return $pdo;
