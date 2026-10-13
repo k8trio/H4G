@@ -18,7 +18,7 @@ $fb_problem = $fb ? find_problem($fb['problem']) : null;
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>H4G :: SCOREBOARD</title>
+  <title>PSU :: SCOREBOARD</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>

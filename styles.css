@@ -66,6 +66,9 @@ body {
   text-shadow: 0 0 10px var(--green);
 }
 
+.logo:has(.logo-img) { display: flex; align-items: center; gap: 10px; }
+.logo-img { width: 44px; height: 44px; flex-shrink: 0; filter: drop-shadow(0 0 6px var(--green-glow)); }
+
 .blink {
   animation: blink 1s step-end infinite;
 }
@@ -542,6 +545,7 @@ a.hud-stat:hover .hud-stat-val { text-shadow: 0 0 8px var(--green); }
   .hud-top { flex-wrap: wrap; gap: 8px; }
   main, .auth-wrap { padding-top: 130px; }
   .hud-stats { gap: 14px; }
+  .logo-img { width: 32px; height: 32px; }
   .hud-stat-val { max-width: 110px; font-size: .8rem; }
   .panel { padding: 22px 16px; }
   .fb-title { font-size: 1.7rem; letter-spacing: 4px; }

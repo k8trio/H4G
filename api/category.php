@@ -32,7 +32,7 @@ $json_flags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="csrf-token" content="<?= h($csrf) ?>"/>
-  <title>H4G :: <?= h(strtoupper($cat)) ?></title>
+  <title>PSU :: <?= h(strtoupper($cat)) ?></title>
   <link rel="stylesheet" href="styles.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
 </head>

@@ -21,7 +21,7 @@ $full = count($members) >= MAX_TEAM_SIZE;
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>H4G :: TEAM LOBBY</title>
+  <title>PSU :: TEAM LOBBY</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>

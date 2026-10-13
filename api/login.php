@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>H4G :: <?= $mode === 'register' ? 'REGISTER' : 'LOGIN' ?></title>
+  <title>PSU :: <?= $mode === 'register' ? 'REGISTER' : 'LOGIN' ?></title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="scanline"></div>
 
   <div class="hud-top">
-    <div class="logo">H4G_CTF<span class="blink">_</span></div>
+    <div class="logo"><img class="logo-img" src="/assets/psu_logo_96.gif" alt="Pangasinan State University logo" width="44" height="44"/>PSU_CTF<span class="blink">_</span></div>
   </div>
 
   <div class="auth-wrap">

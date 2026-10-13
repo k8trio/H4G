@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>H4G :: TEAM SETUP</title>
+  <title>PSU :: TEAM SETUP</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="scanline"></div>
 
   <div class="hud-top">
-    <div class="logo">H4G_CTF<span class="blink">_</span></div>
+    <div class="logo"><img class="logo-img" src="/assets/psu_logo_96.gif" alt="Pangasinan State University logo" width="44" height="44"/>PSU_CTF<span class="blink">_</span></div>
     <div class="hud-stats">
       <div class="hud-stat"><span class="pts-label">LOGGED IN</span><span class="hud-stat-val"><?= h($user['username']) ?></span></div>
       <a href="logout.php" class="back-btn">LOGOUT</a>

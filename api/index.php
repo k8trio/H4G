@@ -11,7 +11,7 @@ $fb_problem = $fb ? find_problem($fb['problem']) : null;
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <title>H4G :: CTF Platform</title>
+  <title>PSU :: CTF Platform</title>
   <link rel="stylesheet" href="styles.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
 </head>
@@ -19,7 +19,7 @@ $fb_problem = $fb ? find_problem($fb['problem']) : null;
   <canvas id="matrix"></canvas>
 
   <div class="hud-top">
-    <div class="logo">H4G_CTF<span class="blink">_</span></div>
+    <div class="logo"><img class="logo-img" src="/assets/psu_logo_96.gif" alt="Pangasinan State University logo" width="44" height="44"/>PSU_CTF<span class="blink">_</span></div>
     <?= hud_stats($user) ?>
   </div>
 
