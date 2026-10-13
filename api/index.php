@@ -1,4 +1,12 @@
-<?php require_once __DIR__ . '/_auth.php'; $user = require_login(); $solved_count = count(solved_keys($user['id'])); $P = require __DIR__ . '/_problems.php'; ?>
+<?php
+require_once __DIR__ . '/_auth.php';
+require_once __DIR__ . '/_scoring.php';
+$user = require_team();
+$solved_count = count(solved_map((int)$user['team_id']));
+$P = load_problems();
+$fb = event_first_blood();
+$fb_problem = $fb ? find_problem($fb['problem']) : null;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +20,7 @@
 
   <div class="hud-top">
     <div class="logo">H4G_CTF<span class="blink">_</span></div>
-    <div class="points-display">
-      <span class="pts-label">SCORE</span>
-      <span class="pts-value" id="points"><?= (int)$user['points'] ?></span>
-    </div>
-    <a href="logout.php" style="color:var(--green);font-size:.8rem;text-decoration:none;margin-left:16px;">[ LOGOUT: <?= htmlspecialchars($user['username']) ?> ]</a>
+    <?= hud_stats($user) ?>
   </div>
 
   <div class="scanline"></div>
@@ -25,6 +29,16 @@
     <div class="terminal-header">
       <p class="glitch" data-text="// SELECT YOUR DOMAIN //">// SELECT YOUR DOMAIN //</p>
       <p class="sub">Choose a category to begin your infiltration.</p>
+      <div class="nav-links">
+        <a href="team.php">[ TEAM LOBBY ]</a>
+        <a href="scoreboard.php">[ SCOREBOARD ]</a>
+        <a href="logout.php">[ LOGOUT ]</a>
+      </div>
+      <?php if ($fb): ?>
+        <p class="fb-status">FIRST BLOOD CLAIMED BY <?= h($fb['team_name']) ?> ON <?= h($fb_problem ? $fb_problem[1]['title'] : $fb['problem']) ?></p>
+      <?php else: ?>
+        <p class="fb-status">FIRST BLOOD STILL AVAILABLE: +<?= FIRST_BLOOD_BONUS ?> PTS TO THE FIRST SOLVE OF THE EVENT</p>
+      <?php endif; ?>
     </div>
 
     <div class="category-grid">
@@ -55,7 +69,7 @@
     </div>
   </main>
 
-  <div class="footer-bar">[ SYSTEM ONLINE ] &nbsp;|&nbsp; <?= $solved_count ?> FLAGS CAPTURED &nbsp;|&nbsp; <?= (int)$user['points'] ?> PTS</div>
+  <div class="footer-bar">[ SYSTEM ONLINE ] &nbsp;|&nbsp; TEAM <?= h($user['team_name']) ?> &nbsp;|&nbsp; <?= $solved_count ?> FLAGS CAPTURED &nbsp;|&nbsp; <?= (int)$user['team_points'] ?> PTS</div>
 
   <script src="matrix.js"></script>
 </body>

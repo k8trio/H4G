@@ -1,19 +1,23 @@
 <?php
 require_once __DIR__ . '/_auth.php';
+require_once __DIR__ . '/_scoring.php';
 
 if (current_user()) { header('Location: index.php'); exit; }
+$csrf = csrf_token();
 
 $mode  = (($_GET['mode'] ?? '') === 'register') ? 'register' : 'login';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $mode     = ($_POST['action'] ?? '') === 'register' ? 'register' : 'login';
-  $username = trim($_POST['username'] ?? '');
-  $password = $_POST['password'] ?? '';
+  $username = is_string($_POST['username'] ?? null) ? trim($_POST['username']) : '';
+  $password = is_string($_POST['password'] ?? null) ? $_POST['password'] : '';
   ensure_schema();
   $pdo      = db();
 
-  if ($mode === 'register') {
+  if (!csrf_valid()) {
+    $error = 'Session expired. Please try again.';
+  } elseif ($mode === 'register') {
     if (!preg_match('/^[A-Za-z0-9_]{3,20}$/', $username)) {
       $error = 'Username: 3-20 letters, numbers or underscore.';
     } elseif (strlen($password) < 6) {
@@ -31,14 +35,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
     }
   } else {
-    $st = $pdo->prepare('SELECT id, pass_hash FROM players WHERE lower(username) = lower(?)');
-    $st->execute([$username]);
-    $row = $st->fetch();
-    if ($row && password_verify($password, $row['pass_hash'])) {
-      login_user((int)$row['id']);
-      header('Location: index.php'); exit;
+    // Rate limit failed logins per username + IP. Checked before the password, so a locked-out
+    // guesser learns nothing even with the right password.
+    $user_lc = strtolower(substr($username, 0, 64));
+    $st = $pdo->prepare('SELECT COUNT(*) FROM login_failures
+                         WHERE username_lc = ? AND ip = ? AND created_at > now() - make_interval(secs => ?)');
+    $st->execute([$user_lc, client_ip(), LOGIN_FAIL_WINDOW]);
+
+    if ((int)$st->fetchColumn() >= LOGIN_FAIL_LIMIT) {
+      http_response_code(429);
+      $error = 'Too many failed logins. Try again in ' . intdiv(LOGIN_FAIL_WINDOW, 60) . ' minutes.';
+    } else {
+      $st = $pdo->prepare('SELECT id, pass_hash FROM players WHERE lower(username) = lower(?)');
+      $st->execute([$username]);
+      $row = $st->fetch();
+      if ($row && password_verify($password, $row['pass_hash'])) {
+        login_user((int)$row['id']);
+        header('Location: index.php'); exit;
+      }
+      $pdo->prepare('INSERT INTO login_failures (username_lc, ip) VALUES (?, ?)')->execute([$user_lc, client_ip()]);
+      $error = 'Invalid username or password.';
     }
-    $error = 'Invalid username or password.';
   }
 }
 ?>
@@ -49,19 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>H4G :: <?= $mode === 'register' ? 'REGISTER' : 'LOGIN' ?></title>
   <link rel="stylesheet" href="styles.css"/>
-  <style>
-    .auth-wrap { position: relative; z-index: 2; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 90px 16px 60px; }
-    .auth-box { position: relative; width: 100%; max-width: 420px; background: var(--panel); border: 1px solid var(--border); padding: 32px 28px; box-shadow: 0 0 25px var(--green-glow); }
-    .auth-box h2 { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 22px; text-align: center; }
-    .auth-box label { display: block; font-size: .8rem; margin: 14px 0 6px; color: var(--green-dim); }
-    .auth-box input { width: 100%; background: #000; border: 1px solid var(--green-dim); color: var(--green); font-family: inherit; font-size: 1rem; padding: 10px 12px; outline: none; }
-    .auth-box input:focus { border-color: var(--green); box-shadow: 0 0 8px var(--green-glow); }
-    .auth-box button { width: 100%; margin-top: 24px; padding: 11px; background: transparent; border: 1px solid var(--green); color: var(--green); font-family: 'Orbitron', sans-serif; letter-spacing: 2px; cursor: pointer; }
-    .auth-box button:hover { background: var(--green); color: #000; }
-    .auth-err { margin-top: 16px; color: var(--red); text-shadow: 0 0 8px rgba(255,34,34,.6); font-size: .85rem; text-align: center; }
-    .auth-switch { margin-top: 20px; text-align: center; font-size: .85rem; }
-    .auth-switch a { color: var(--green); }
-  </style>
 </head>
 <body>
   <canvas id="matrix"></canvas>
@@ -75,9 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form class="auth-box" method="post" action="login.php<?= $mode === 'register' ? '?mode=register' : '' ?>" autocomplete="off">
       <h2><?= $mode === 'register' ? '// CREATE ACCOUNT //' : '// ACCESS TERMINAL //' ?></h2>
       <input type="hidden" name="action" value="<?= $mode ?>"/>
+      <?= csrf_field() ?>
 
       <label for="username">USERNAME</label>
-      <input id="username" name="username" type="text" maxlength="20" required autofocus value="<?= htmlspecialchars($_POST['username'] ?? '') ?>"/>
+      <input id="username" name="username" type="text" maxlength="20" required autofocus value="<?= h($_POST['username'] ?? '') ?>"/>
 
       <label for="password">PASSWORD</label>
       <input id="password" name="password" type="password" required/>
@@ -87,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input id="confirm" name="confirm" type="password" required/>
       <?php endif; ?>
 
-      <?php if ($error): ?><div class="auth-err">[ ERROR ] <?= htmlspecialchars($error) ?></div><?php endif; ?>
+      <?php if ($error): ?><div class="auth-err">[ ERROR ] <?= h($error) ?></div><?php endif; ?>
 
       <button type="submit"><?= $mode === 'register' ? 'REGISTER' : 'LOGIN' ?></button>
 

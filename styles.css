@@ -405,6 +405,133 @@ main {
 .coming-soon .glitch { font-size: 2rem; }
 .coming-soon .sub { margin-top: 15px; font-size: 0.9rem; }
 
+/* AUTH / FORM BOXES (login, team setup) */
+.auth-wrap { position: relative; z-index: 2; min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 30px; padding: 90px 16px 60px; }
+.auth-box { position: relative; width: 100%; max-width: 420px; background: var(--panel); border: 1px solid var(--border); padding: 32px 28px; box-shadow: 0 0 25px var(--green-glow); }
+.auth-box h2 { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 22px; text-align: center; }
+.auth-box label { display: block; font-size: .8rem; margin: 14px 0 6px; color: var(--green-dim); }
+.auth-box input { width: 100%; background: #000; border: 1px solid var(--green-dim); color: var(--green); font-family: inherit; font-size: 1rem; padding: 10px 12px; outline: none; }
+.auth-box input:focus { border-color: var(--green); box-shadow: 0 0 8px var(--green-glow); }
+.auth-box button { width: 100%; margin-top: 24px; padding: 11px; background: transparent; border: 1px solid var(--green); color: var(--green); font-family: 'Orbitron', sans-serif; letter-spacing: 2px; cursor: pointer; }
+.auth-box button:hover { background: var(--green); color: #000; }
+.auth-err { margin-top: 16px; color: var(--red); text-shadow: 0 0 8px rgba(255,34,34,.6); font-size: .85rem; text-align: center; }
+.auth-hint { font-size: .75rem; color: #5a9e6a; margin-top: 8px; line-height: 1.5; }
+.auth-switch { margin-top: 20px; text-align: center; font-size: .85rem; }
+.auth-switch a { color: var(--green); }
+
+/* TEAM MODE: HUD + NAV */
+.hud-stats { display: flex; align-items: center; gap: 24px; }
+.hud-stat { display: flex; flex-direction: column; align-items: flex-end; text-decoration: none; }
+.hud-stat-val { font-size: .9rem; color: var(--green); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+a.hud-stat:hover .hud-stat-val { text-shadow: 0 0 8px var(--green); }
+
+.nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 18px; }
+.nav-links a {
+  color: var(--green);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  border: 1px solid var(--green-dim);
+  padding: 5px 12px;
+  transition: all 0.2s;
+}
+.nav-links a:hover { background: var(--green); color: #000; box-shadow: 0 0 12px var(--green); }
+
+.fb-status { margin-top: 16px; font-size: .8rem; letter-spacing: 2px; color: var(--red); text-shadow: 0 0 8px rgba(255,34,34,.6); }
+
+/* CHALLENGE CARD EXTRAS */
+.prob-meta { font-size: 0.7rem; letter-spacing: 2px; color: var(--green-dim); margin-bottom: 12px; }
+.solved-by { display: block; margin-top: 4px; color: #5a9e6a; letter-spacing: 1px; }
+.fb-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 8px;
+  border: 1px solid var(--red);
+  color: var(--red);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 6px rgba(255,34,34,.6);
+}
+.prob-card.solved.first-blood { opacity: 0.8; border-color: var(--red); }
+
+/* TEAM LOBBY + SCOREBOARD PANELS */
+.panel {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  background: var(--panel);
+  border: 1px solid var(--green-dim);
+  padding: 28px 26px;
+  box-shadow: 0 0 25px var(--green-glow);
+}
+.panel + .panel { margin-top: 24px; }
+.panel-title { font-family: 'Orbitron', monospace; font-size: .9rem; letter-spacing: 3px; margin-bottom: 16px; color: var(--green); }
+.slot-list { list-style: none; }
+.slot-list li { padding: 10px 0; border-bottom: 1px solid #003300; font-size: .9rem; letter-spacing: 1px; }
+.slot-list li.empty { color: #2a5e35; }
+.slot-list .slot-n { color: var(--green-dim); margin-right: 12px; }
+.team-stats { display: flex; flex-wrap: wrap; gap: 30px; margin-top: 18px; }
+.invite-code { font-family: 'Orbitron', monospace; font-size: 1.6rem; letter-spacing: 6px; color: var(--green); text-shadow: 0 0 12px var(--green); user-select: all; }
+
+.score-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.score-table th { text-align: left; font-size: .7rem; letter-spacing: 2px; color: var(--green-dim); padding: 8px 6px; border-bottom: 1px solid var(--green-dim); }
+.score-table td { padding: 10px 6px; border-bottom: 1px solid #003300; word-break: break-word; }
+.score-table .num { text-align: right; }
+.score-table tr.mine td { background: rgba(0,255,65,0.07); }
+.table-scroll { width: 100%; overflow-x: auto; }
+
+/* FIRST BLOOD OVERLAY */
+.fb-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(10,0,0,0.92);
+  cursor: pointer;
+}
+.fb-overlay.active { display: flex; }
+.fb-box {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  border: 1px solid var(--red);
+  background: #0a0000;
+  padding: 40px 24px;
+  box-shadow: 0 0 60px rgba(255,34,34,.5);
+  animation: modal-in 0.25s ease;
+}
+.fb-box .corner { border-color: var(--red); }
+.fb-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 2.6rem;
+  font-weight: 900;
+  letter-spacing: 8px;
+  color: var(--red);
+  text-shadow: 0 0 25px var(--red);
+  animation: pulse-text 1s infinite;
+  margin-bottom: 22px;
+}
+.fb-line { font-size: .9rem; letter-spacing: 2px; color: #ff8080; margin: 6px 0; word-break: break-word; }
+.fb-bonus { font-family: 'Orbitron', monospace; font-size: 1.4rem; letter-spacing: 4px; color: var(--green); text-shadow: 0 0 12px var(--green); margin-top: 20px; }
+.fb-hint { font-size: .7rem; letter-spacing: 2px; color: #663333; margin-top: 22px; }
+.fb-mute {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: transparent;
+  border: 1px solid #663333;
+  color: #ff8080;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .75rem;
+  letter-spacing: 2px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.fb-mute:hover { border-color: var(--red); color: var(--red); }
+
 /* RESPONSIVE */
 @media (max-width: 600px) {
   .hud-top { padding: 10px 15px; }
@@ -412,4 +539,11 @@ main {
   main { padding: 85px 15px 55px; }
   .glitch { font-size: 1.2rem; }
   .category-grid { grid-template-columns: 1fr; }
+  .hud-top { flex-wrap: wrap; gap: 8px; }
+  main, .auth-wrap { padding-top: 130px; }
+  .hud-stats { gap: 14px; }
+  .hud-stat-val { max-width: 110px; font-size: .8rem; }
+  .panel { padding: 22px 16px; }
+  .fb-title { font-size: 1.7rem; letter-spacing: 4px; }
+  .invite-code { font-size: 1.2rem; letter-spacing: 4px; }
 }

@@ -1,0 +1,5 @@
+# Never deploy these: answers/hints, planning docs, tests, migration notes.
+/Cryptography/answers
+/documents
+/tests
+/MIGRATION.md

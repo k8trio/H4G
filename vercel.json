@@ -3,8 +3,9 @@
     "api/*.php": { "runtime": "vercel-php@0.7.3" }
   },
   "routes": [
+    { "src": "/(api/)?_[^/]*", "status": 404 },
     { "handle": "filesystem" },
     { "src": "/", "dest": "/api/index.php" },
-    { "src": "/(.+)\\.php", "dest": "/api/$1.php" }
+    { "src": "/(.+)\.php", "dest": "/api/$1.php" }
   ]
 }
