@@ -64,7 +64,7 @@ try {
     $total = (int)$st->fetchColumn();
     $pdo->commit();
     respond([
-      'correct' => true, 'already' => true, 'message' => '[ WARN ] Already solved by your team. +0 pts.',
+      'correct' => true, 'already' => true, 'message' => '[ WARN ] Already solved' . ($user['is_solo'] ? '' : ' by your team') . '. +0 pts.',
       'awarded' => 0, 'rank' => null, 'total' => $total, 'first_blood' => false, 'bonus' => 0,
     ]);
   }

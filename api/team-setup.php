@@ -26,16 +26,39 @@ function joined(): void {
 $action     = '';
 $create_err = '';
 $join_err   = '';
+$solo_err   = '';
 $name_in    = '';
 $code_in    = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $action = ($_POST['action'] ?? '') === 'join' ? 'join' : 'create';
+  $action = in_array($_POST['action'] ?? '', ['join', 'solo'], true) ? $_POST['action'] : 'create';
   $pdo = db();
 
   if (!csrf_valid()) {
     if ($action === 'join') $join_err = '[ ERROR ] Session expired. Please try again.';
+    elseif ($action === 'solo') $solo_err = '[ ERROR ] Session expired. Please try again.';
     else $create_err = '[ ERROR ] Session expired. Please try again.';
+
+  } elseif ($action === 'solo') {
+    // A private one-member team. The name uses [ ], which team names cannot contain, so it never
+    // collides with a real team; the invite code is random and solo teams are never joinable.
+    try {
+      $pdo->beginTransaction();
+      $st = $pdo->prepare('INSERT INTO teams (name, invite_code, is_solo) VALUES (?, ?, true) RETURNING id');
+      $st->execute([$user['username'] . ' [SOLO]', 'SOLO-' . bin2hex(random_bytes(16))]);
+      $team_id = (int)$st->fetchColumn();
+
+      $st = $pdo->prepare('UPDATE players SET team_id = ? WHERE id = ? AND team_id IS NULL');
+      $st->execute([$team_id, $user['id']]);
+      if ($st->rowCount() !== 1) { $pdo->rollBack(); joined(); } // already joined a team in another tab
+
+      $pdo->commit();
+      joined();
+    } catch (PDOException $e) {
+      if ($pdo->inTransaction()) $pdo->rollBack();
+      error_log('solo create failed: ' . $e->getMessage());
+      $solo_err = '[ ERROR ] Something went wrong. Try again.';
+    }
 
   } elseif ($action === 'create') {
     $name_in = is_string($_POST['team_name'] ?? null) ? $_POST['team_name'] : '';
@@ -85,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->beginTransaction();
         // Lock the team row: concurrent joins for the last slot queue here, and each one
         // counts members only after the previous join has committed.
-        $st = $pdo->prepare('SELECT id FROM teams WHERE invite_code = ? FOR UPDATE');
+        $st = $pdo->prepare('SELECT id FROM teams WHERE invite_code = ? AND NOT is_solo FOR UPDATE');
         $st->execute([$code]);
         $team_id = $st->fetchColumn();
 
@@ -142,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="auth-wrap">
     <div style="width:100%;text-align:center;">
       <p class="glitch" data-text="YOU ARE NOT CURRENTLY IN A TEAM">YOU ARE NOT CURRENTLY IN A TEAM</p>
-      <p class="sub">Create a team (1 to <?= MAX_TEAM_SIZE ?> members, solo is fine) or join one with an invite code.</p>
+      <p class="sub">Create a team (1 to <?= MAX_TEAM_SIZE ?> members), join one with an invite code, or compete as an individual.</p>
     </div>
 
     <form class="auth-box" method="post" action="team-setup.php" autocomplete="off">
@@ -165,6 +188,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="auth-hint">Ask your team captain for the code shown in their team lobby.</div>
       <?php if ($join_err): ?><div class="auth-err"><?= h($join_err) ?></div><?php endif; ?>
       <button type="submit">JOIN TEAM</button>
+    </form>
+
+    <form class="auth-box" method="post" action="team-setup.php" autocomplete="off">
+      <h2>// PLAY SOLO //</h2>
+      <input type="hidden" name="action" value="solo"/>
+      <?= csrf_field() ?>
+      <div class="auth-hint">Compete as an individual under your username. Nobody can join you, and you cannot join a team later.</div>
+      <?php if ($solo_err): ?><div class="auth-err"><?= h($solo_err) ?></div><?php endif; ?>
+      <button type="submit">PLAY SOLO</button>
     </form>
   </div>
 

@@ -39,6 +39,7 @@ function schema_ready(): bool {
       AND to_regclass(\'login_failures\') IS NOT NULL
       AND ' . sprintf($col, 'solves', 'team_id') . '
       AND ' . sprintf($col, 'players', 'team_id') . '
+      AND ' . sprintf($col, 'teams', 'is_solo') . '
       AND NOT ' . sprintf($col, 'players', 'points'))->fetchColumn();
 }
 
@@ -86,6 +87,8 @@ function ensure_schema(): void {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     )");
     $pdo->exec("CREATE UNIQUE INDEX IF NOT EXISTS teams_name_lc ON teams (lower(name))");
+    // Solo players get a private one-member team: same scoring path, never joinable.
+    $pdo->exec("ALTER TABLE teams ADD COLUMN IF NOT EXISTS is_solo BOOLEAN NOT NULL DEFAULT false");
 
     $pdo->exec("ALTER TABLE players ADD COLUMN IF NOT EXISTS team_id BIGINT REFERENCES teams(id) ON DELETE SET NULL");
     $pdo->exec("CREATE INDEX IF NOT EXISTS players_team ON players(team_id)");
@@ -218,7 +221,8 @@ function current_user(): ?array {
   if (!ctype_digit($id) || !ctype_digit($exp) || (int)$exp < time()) return null;
   if (!hash_equals(hash_hmac('sha256', "$id.$exp", auth_secret()), $sig)) return null;
 
-  $sql = 'SELECT p.id, p.username, p.team_id, t.name AS team_name, t.points AS team_points
+  $sql = 'SELECT p.id, p.username, p.team_id, t.name AS team_name, t.points AS team_points,
+                 COALESCE(t.is_solo, false) AS is_solo
           FROM players p LEFT JOIN teams t ON t.id = p.team_id WHERE p.id = ?';
   try {
     $st = db()->prepare($sql);
@@ -287,10 +291,13 @@ function event_first_blood(): ?array {
   return db()->query('SELECT team_id, team_name, problem, awarded, claimed_at FROM event_first_blood WHERE id = 1')->fetch() ?: null;
 }
 
-// TEAM / LOGGED IN / SCORE block for the top HUD.
+// TEAM (or MODE: SOLO) / LOGGED IN / SCORE block for the top HUD.
 function hud_stats(array $user): string {
+  $team = $user['is_solo']
+    ? '<span class="pts-label">MODE</span><span class="hud-stat-val">SOLO</span>'
+    : '<span class="pts-label">TEAM</span><span class="hud-stat-val">' . h($user['team_name']) . '</span>';
   return '<div class="hud-stats">'
-    . '<a class="hud-stat" href="team.php"><span class="pts-label">TEAM</span><span class="hud-stat-val">' . h($user['team_name']) . '</span></a>'
+    . '<a class="hud-stat" href="team.php">' . $team . '</a>'
     . '<div class="hud-stat"><span class="pts-label">LOGGED IN</span><span class="hud-stat-val">' . h($user['username']) . '</span></div>'
     . '<div class="points-display"><span class="pts-label">SCORE</span><span class="pts-value" id="points">' . (int)$user['team_points'] . '</span></div>'
     . '</div>';

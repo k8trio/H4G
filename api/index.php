@@ -69,7 +69,7 @@ $fb_problem = $fb ? find_problem($fb['problem']) : null;
     </div>
   </main>
 
-  <div class="footer-bar">[ SYSTEM ONLINE ] &nbsp;|&nbsp; TEAM <?= h($user['team_name']) ?> &nbsp;|&nbsp; <?= $solved_count ?> FLAGS CAPTURED &nbsp;|&nbsp; <?= (int)$user['team_points'] ?> PTS</div>
+  <div class="footer-bar">[ SYSTEM ONLINE ] &nbsp;|&nbsp; <?= $user['is_solo'] ? 'SOLO ' . h($user['username']) : 'TEAM ' . h($user['team_name']) ?> &nbsp;|&nbsp; <?= $solved_count ?> FLAGS CAPTURED &nbsp;|&nbsp; <?= (int)$user['team_points'] ?> PTS</div>
 
   <script src="matrix.js"></script>
 </body>

@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS teams (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE UNIQUE INDEX IF NOT EXISTS teams_name_lc ON teams (lower(name));
+ALTER TABLE teams ADD COLUMN IF NOT EXISTS is_solo BOOLEAN NOT NULL DEFAULT false;
 
 ALTER TABLE players ADD COLUMN IF NOT EXISTS team_id BIGINT REFERENCES teams(id) ON DELETE SET NULL;
 CREATE INDEX IF NOT EXISTS players_team ON players(team_id);
@@ -105,21 +106,24 @@ DROP TABLE IF EXISTS solves_legacy;
 TRUNCATE players, teams, solves, submissions, event_first_blood, team_join_attempts, login_failures RESTART IDENTITY CASCADE;
 ```
 
-## Before launch day (required)
+## Solo players
+
+A player who picks **PLAY SOLO** gets a private one-member team (`teams.is_solo = true`, named
+`<username> [SOLO]`). It goes through the same scoring, decay and First Blood logic as any team,
+but it cannot be joined and is listed under Individual Rankings, not Team Rankings.
+Existing databases get the column automatically on the next page load (or run the `ALTER` above).
+
+## Before launch day (required): reset scores
 
 Every test solve before the event counts. In particular, **the first test solve uses up the event's
-only First Blood**. Clear all test data right before the event starts:
+only First Blood**. Clear all test data right before the event starts, with `tests/reset_scores.sql`:
 
-```sql
-BEGIN;
-DELETE FROM event_first_blood;
-DELETE FROM solves;
-DELETE FROM submissions;
-DELETE FROM team_join_attempts;
-DELETE FROM login_failures;
-UPDATE teams SET points = 0;
-COMMIT;
+```bash
+psql "$DATABASE_URL" -f tests/reset_scores.sql
 ```
+
+or paste its contents into the Neon / Vercel Postgres SQL editor. It keeps accounts and teams, and
+resets points, solves, First Blood, the audit log and every rate limit.
 
 Also delete any test teams and accounts you made (for example the `RACETEST …` teams and `rt…` users
 from `tests/race_test.sh`). Delete teams first, because `solves.solved_by` references players:

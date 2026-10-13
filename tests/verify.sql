@@ -22,3 +22,7 @@ HAVING COUNT(*) > 1
 SELECT s.team_id, s.problem FROM solves s
 WHERE s.first_blood AND NOT EXISTS (
   SELECT 1 FROM event_first_blood f WHERE f.team_id = s.team_id AND f.problem = s.problem);
+
+-- 5. Solo teams have exactly one member.
+SELECT t.id, t.name, COUNT(p.id) AS members FROM teams t LEFT JOIN players p ON p.team_id = t.id
+WHERE t.is_solo GROUP BY t.id HAVING COUNT(p.id) <> 1;
