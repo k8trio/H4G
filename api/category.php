@@ -92,7 +92,7 @@ $json_flags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
       <div id="modalFiles" style="margin:10px 0;"></div>
       <div class="flag-input-wrap">
         <span class="prompt">root@ctf:~$</span>
-        <input type="text" id="flagInput" placeholder="<?= $cat === 'cryptography' ? 'ctf{...}' : 'FLAG{...}' ?>" autocomplete="off" spellcheck="false"/>
+        <input type="text" id="flagInput" placeholder="<?= $cat === 'cryptography' ? 'psuCTF{...}' : 'FLAG{...}' ?>" autocomplete="off" spellcheck="false"/>
       </div>
       <div id="modalMsg" class="modal-msg"></div>
       <div class="modal-actions">
