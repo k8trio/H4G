@@ -26,11 +26,9 @@ return [
 
   // TODO: replace every 'FLAG{TODO_...}' answer with the real flag and adjust the points.
   'osint' => [
-    'door 1'       => ['title' => 'Door 1',       'desc' => 'Does the name \'PeeESHyou\' ring a bell? Maybe something on social media can unlock these doors, perhaps a password. Door 1: there is a suspicious line of code hidden here.', 'points' => 20, 'files' => ['OSINT/Door 1, Door 2, Door 3/Door 1.zip'], 'answer' => 'psuCTF{TODO_door_1}'],
-    'door 2'       => ['title' => 'Door 2',       'desc' => 'Use the clues from the previous room. A lens? What kind of lens? You need to pinpoint the exact coordinates.', 'points' => 30, 'files' => ['OSINT/Door 1, Door 2, Door 3/Door 2.zip'], 'answer' => 'psuCTF{TODO_door_2}'],
-    'door 3'       => ['title' => 'Door 3',       'desc' => 'There is more to this photo than meets the eye. Dig into the metadata.', 'points' => 40, 'files' => ['OSINT/Door 1, Door 2, Door 3/Door 3.zip'], 'answer' => 'psuCTF{TODO_door_3}'],
-    'just nels it' => ['title' => 'Just Nels It!', 'desc' => 'File: so many trees.jpg. So many trees... can you figure out where this photo was taken?', 'points' => 30, 'files' => ['OSINT/Just Nels It!/so many trees.jpg'], 'answer' => 'psuCTF{TODO_just_nels_it}'],
-    'time machine' => ['title' => 'Time Machine',  'desc' => 'A guy named john started building his very own personal website long ago. During development he left JUICY information. Maybe a machine capable of going way back in time could retrieve it? Website: https://ratatooo-pixel.github.io/my-website/', 'points' => 30, 'answer' => 'psuCTF{TODO_time_machine}'],
+    'door 1'       => ['title' => 'Door 1',       'desc' => 'Does the name \'PeeESHyou\' ring a bell? Maybe something on social media can unlock these doors, perhaps a password. Door 1: there is a suspicious line of code hidden here.', 'points' => 20, 'files' => ['OSINT\Door 1, Door 2, Door 3\challenge.zip'], 'answer' => 'psuCTF{Mikurajima, Japan}'],
+    'just nels it' => ['title' => 'Just Nels It!', 'desc' => 'File: so many trees.jpg. So many trees... can you figure out where this photo was taken? \n Use underscore as spacing for answer format ', 'points' => 30, 'files' => ['OSINT/Just Nels It!/so many trees.jpg'], 'answer' => 'psuCTF{Amazon_Rainforest}'],
+    'time machine' => ['title' => 'Time Machine',  'desc' => 'A guy named john started building his very own personal website long ago. During development he left JUICY information. Maybe a machine capable of going way back in time could retrieve it? Website: https://ratatooo-pixel.github.io/my-website/', 'points' => 30, 'answer' => 'psuCTF{w4yb4ck_h0m3p4g3_2004}'],
   ],
 
   
