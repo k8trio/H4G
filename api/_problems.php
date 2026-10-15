@@ -26,9 +26,9 @@ return [
 
   // TODO: replace every 'FLAG{TODO_...}' answer with the real flag and adjust the points.
   'osint' => [
-    'door 1'       => ['title' => 'Ladder',       'desc' => 'Does the name \'PeeESHyou\' ring a bell? Maybe something on social media can unlock these doors, perhaps a password. Note: Open Door 1, 2 and 3 to obtain the flag. Flag is at Door 3. After seeing it there, push the answer on the website to get your score.', 'points' => 20, 'files' => ['OSINT\Door 1, Door 2, Door 3\challenge.zip'], 'answer' => 'psuCTF{Mikurajima, Japan}'],
-    'just nels it' => ['title' => 'Just Nels It!', 'desc' => 'File: so many trees.jpg. So many trees... can you figure out where this photo was taken? \n Use underscore as spacing for answer format ', 'points' => 30, 'files' => ['OSINT/Just Nels It!/so many trees.jpg'], 'answer' => 'psuCTF{Amazon_Rainforest}'],
+    'just nels it' => ['title' => 'Just Nels It!', 'desc' => 'File: so many trees.jpg. So many trees... can you figure out where this photo was taken? \n Use underscore as spacing for answer format ', 'points' => 10, 'files' => ['OSINT/Just Nels It!/so many trees.jpg'], 'answer' => 'psuCTF{Amazon_Rainforest}'],
     'time machine' => ['title' => 'Time Machine',  'desc' => 'A guy named john started building his very own personal website long ago. During development he left JUICY information. Maybe a machine capable of going way back in time could retrieve it? Website: https://ratatooo-pixel.github.io/my-website/', 'points' => 30, 'answer' => 'psuCTF{w4yb4ck_h0m3p4g3_2004}'],
+      'door 1'       => ['title' => 'Ladder',       'desc' => 'Does the name \'PeeESHyou\' ring a bell? Maybe something on social media can unlock these doors, perhaps a password. Note: Open Door 1, 2 and 3 to obtain the flag. Flag is at Door 3. After seeing it there, push the answer on the website to get your score.', 'points' => 70, 'files' => ['OSINT\Door 1, Door 2, Door 3\challenge.zip'], 'answer' => 'psuCTF{Mikurajima, Japan}'],
   ],
 
   
