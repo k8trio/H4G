@@ -32,4 +32,11 @@ return [
     'just nels it' => ['title' => 'Just Nels It!', 'desc' => 'File: so many trees.jpg. So many trees... can you figure out where this photo was taken?', 'points' => 30, 'files' => ['OSINT/Just Nels It!/so many trees.jpg'], 'answer' => 'psuCTF{TODO_just_nels_it}'],
     'time machine' => ['title' => 'Time Machine',  'desc' => 'A guy named john started building his very own personal website long ago. During development he left JUICY information. Maybe a machine capable of going way back in time could retrieve it? Website: https://ratatooo-pixel.github.io/my-website/', 'points' => 30, 'answer' => 'psuCTF{TODO_time_machine}'],
   ],
+
+  
+  'steganography' => [
+    'problem one'   => ['title' => 'Use the tool',   'desc' => ' A strange image indeed...could be there is something inside it? Use something to pull it out. Oh, and a code came with it: dGhpcy1pcy1ub3QtdGhlLXBhc3N3b3JkLXRob3VnaA==', 'points' => 30, 'files' => ['steganography/steghide.jpg'],   'answer' => 'psuCTF{welc0m3_t0_st3g}'],
+    'problem two'   => ['title' => 'listen look and listen and learn',   'desc' => 'A strange audio recording was recovered. What message could it contain...', 'points' => 20, 'files' => ['steganography/signal.wav'],   'answer' => 'psuCTF{th3_sound_!s_us3less}'],
+    'problem three' => ['title' => 'The Last GIFbender', 'desc' => 'It moves, it loops, it’s definitely a GIF. But look closer. What’s really going on underneath the motion?', 'points' => 80, 'files' => ['steganography/challenge.gif'], 'answer' => 'psuCTF{g!f_mast3r}'],
+  ],
 ];

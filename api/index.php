@@ -66,6 +66,15 @@ $fb_problem = $fb ? find_problem($fb['problem']) : null;
         <div class="corner tl"></div><div class="corner tr"></div>
         <div class="corner bl"></div><div class="corner br"></div>
       </a>
+
+      <a href="category.php?cat=steganography" class="cat-card stego">
+
+        <div class="cat-name">STEGANOGRAPHY</div>
+        <div class="cat-desc">Messages hidden inside images, audio, and more.</div>
+        <div class="cat-count"><?= count($P['steganography']) ?> Challenges</div>
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+      </a>
     </div>
   </main>
 
